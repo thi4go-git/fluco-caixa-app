@@ -51,74 +51,75 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Alimentação" #input>
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource"
-    class="col-md-12 table-responsive mat-elevation-z8 table table-condensed table-hover table-striped">
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> id </th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.id}} </td>
-    </ng-container>
+<div class="mat-elevation-z8 mat-table-responsive">
+    <table mat-table [dataSource]="dataSource">
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="tipo">
-        <th mat-header-cell *matHeaderCellDef> tipo </th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.tipo}} </td>
-    </ng-container>
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{lancamento.id}} </td>
+        </ng-container>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="descricao">
-        <th mat-header-cell *matHeaderCellDef> descricao </th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.descricao}} </td>
-    </ng-container>
+        <ng-container matColumnDef="valor_parcela">
+            <th mat-header-cell *matHeaderCellDef> Valor: </th>
+            <td mat-cell *matCellDef="let lancamento"
+                [ngStyle]="{'color': lancamento.valor_parcela < 0 ? 'red' : 'green'}">
+                {{lancamento.valor_parcela}}
+            </td>
+        </ng-container>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="data_lancamento">
-        <th mat-header-cell *matHeaderCellDef>data_lancamento</th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.data_lancamento}} </td>
-    </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="data_lancamento">
+            <th mat-header-cell *matHeaderCellDef>Data:</th>
+            <td mat-cell *matCellDef="let lancamento"> {{lancamento.data_lancamento}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef> Descrição: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{lancamento.descricao}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef> Tipo: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{lancamento.tipo}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="qtde_parcelas">
+            <th mat-header-cell *matHeaderCellDef> Qtde Parcelas: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{lancamento.qtde_parcelas}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="nr_parcela">
+            <th mat-header-cell *matHeaderCellDef> Nº Parcela: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{ lancamento.nr_parcela }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="natureza">
+            <th mat-header-cell *matHeaderCellDef> Natureza: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{ lancamento.natureza }} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="situacao">
+            <th mat-header-cell *matHeaderCellDef> Situação: </th>
+            <td mat-cell *matCellDef="let lancamento"> {{lancamento.situacao}} </td>
+        </ng-container>
 
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="valor_parcela">
-        <th mat-header-cell *matHeaderCellDef> valor_parcela </th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.valor_parcela}} </td>
-    </ng-container>
 
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="qtde_parcelas">
-        <th mat-header-cell *matHeaderCellDef> qtde_parcelas </th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.qtde_parcelas}} </td>
-    </ng-container>
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Sem registros na tabela!</td>
+        </tr>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="nr_parcela">
-        <th mat-header-cell *matHeaderCellDef> nr_parcela </th>
-        <td mat-cell *matCellDef="let lancamento"> {{ lancamento.nr_parcela }}</td>
-    </ng-container>
-
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="natureza">
-        <th mat-header-cell *matHeaderCellDef> natureza </th>
-        <td mat-cell *matCellDef="let lancamento"> {{ lancamento.natureza }} </td>
-    </ng-container>
-
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="situacao">
-        <th mat-header-cell *matHeaderCellDef> situacao </th>
-        <td mat-cell *matCellDef="let lancamento"> {{lancamento.situacao}} </td>
-    </ng-container>
-
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">Sem registros na tabela!</td>
-    </tr>
-
-</table>
+    </table>
+</div>
