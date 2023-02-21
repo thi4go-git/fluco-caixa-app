@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { LancamentoDTOResponse } from 'src/app/entity-class/lancamentoDTOResponse';
 import { LancamentoService } from 'src/app/services/lancamento.service';
+import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.component';
 
 @Component({
   selector: 'app-lancamento-listagem',
@@ -21,7 +24,9 @@ export class LancamentoListagemComponent implements OnInit {
   dataSource: MatTableDataSource<LancamentoDTOResponse> = new MatTableDataSource;
 
   constructor(
-    private service: LancamentoService
+    private service: LancamentoService,
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
 
@@ -72,9 +77,14 @@ export class LancamentoListagemComponent implements OnInit {
           console.log(responseError);
         }
       });
-
   }
 
+
+  novoLancamento() {
+    this.dialog.open(LancamentoFormComponent, {
+      width: '400px', height: '450px'
+    });
+  }
 
 
 }

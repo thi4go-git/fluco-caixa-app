@@ -1,0 +1,88 @@
+<mat-card>
+
+    <mat-card-header>
+        <mat-card-title>
+            <mat-icon>assignment</mat-icon>
+            Novo Lançamento
+            <br />
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+
+        <form [formGroup]="formulario">
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>id_usuario:</mat-label>
+                <input formControlName="id_usuario" matInput placeholder="Digite o id_usuario:" />
+            </mat-form-field>
+
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>tipo:</mat-label>
+                <input formControlName="tipo" matInput placeholder="Digite o tipo:" />
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>descricao:</mat-label>
+                <input formControlName="descricao" matInput placeholder="Digite  descricao:" />
+            </mat-form-field>
+
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>data_referencia:</mat-label>
+                <input formControlName="data_referencia" matInput placeholder="Digite  data_referencia:" />
+            </mat-form-field>
+
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>valor_total:</mat-label>
+                <input formControlName="valor_total" matInput placeholder="Digite  valor_total:" />
+            </mat-form-field>
+
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>qtde_parcelas:</mat-label>
+                <input formControlName="qtde_parcelas" matInput placeholder="Digite  qtde_parcelas:" />
+            </mat-form-field>
+
+
+            <mat-form-field class="full-width">
+                <mat-icon matSuffix>face</mat-icon>
+                <mat-label>natureza:</mat-label>
+                <input formControlName="natureza" matInput placeholder="Digite  natureza:" />
+            </mat-form-field>
+
+
+
+
+            <div>
+                <button type="submit" class="btn btn-success" [disabled]="!formulario.valid">
+                    <i class="fa fa-save"></i>
+                    <mat-icon>check_circle</mat-icon>Salvar
+                </button>
+
+                <button type="button" class="btn btn-danger ml-2" (click)="fecharDialog()">
+                    <i class="fa fa-solid fa-arrow-alt-circle-left"></i>
+                    <mat-icon>fast_rewind</mat-icon>Fechar
+                </button>
+            </div>
+
+
+
+
+        </form>
+
+
+    </mat-card-content>
+
+
+
+</mat-card>

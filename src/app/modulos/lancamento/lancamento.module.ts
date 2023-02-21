@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LancamentoRoutingModule } from './lancamento-routing.module';
 import { LancamentoListagemComponent } from './lancamento-listagem/lancamento-listagem.component';
+import { LancamentoFormComponent } from './lancamento-form/lancamento-form.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,10 +14,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
+
+
 
 @NgModule({
   declarations: [
-    LancamentoListagemComponent
+    LancamentoListagemComponent,
+    LancamentoFormComponent
   ],
   imports: [
     CommonModule,
@@ -29,10 +37,13 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule,
+    ReactiveFormsModule
 
   ], exports: [
-    LancamentoListagemComponent
+    LancamentoListagemComponent,
+    LancamentoFormComponent
   ]
 })
 export class LancamentoModule { }

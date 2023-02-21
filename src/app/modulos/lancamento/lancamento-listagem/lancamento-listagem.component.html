@@ -40,8 +40,15 @@
 </mat-card>
 
 <br>
-
-
+<div id="row">
+    <div id="col-md-2">
+        <button class="btn btn-warning" (click)="novoLancamento()">
+            <mat-icon>exposure_plus_1</mat-icon>
+            <i class="fa fa-plus"></i>Novo Lançamento
+        </button>
+    </div>
+</div>
+<br>
 
 <div class="card-header">
     <b>Total de Registros: {{ total_lancamentos }}</b>
@@ -118,7 +125,9 @@
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">Sem registros na tabela!</td>
+            <td class="mat-cell" colspan="4">
+                <b>Sem registros na tabela!</b>
+            </td>
         </tr>
 
     </table>
