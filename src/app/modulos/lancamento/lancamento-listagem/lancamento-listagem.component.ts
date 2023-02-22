@@ -19,9 +19,12 @@ export class LancamentoListagemComponent implements OnInit {
   data_fim: Date | undefined;
   total_lancamentos: number = 0;
   displayedColumns: string[] = ['id', 'valor_parcela', 'data_lancamento', 'descricao', 'tipo'
-    , 'qtde_parcelas', 'nr_parcela', 'natureza', 'situacao'];
+    , 'qtde_parcelas', 'nr_parcela', 'natureza'];
   //
   dataSource: MatTableDataSource<LancamentoDTOResponse> = new MatTableDataSource;
+  //
+  listaLancemantos: LancamentoDTOResponse[] = [];
+  saldoPeriodo: number = 0;
 
   constructor(
     private service: LancamentoService,
@@ -40,11 +43,15 @@ export class LancamentoListagemComponent implements OnInit {
     this.service.finByIdUserDataMesAtual(this.idUser)
       .subscribe({
         next: (resposta) => {
-          console.log(resposta);
+          this.saldoPeriodo = 0;
           this.data_inicio = resposta.data_inicio;
           this.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
-          this.dataSource = new MatTableDataSource(resposta.lancamentos);
+          this.listaLancemantos = resposta.lancamentos
+          this.dataSource = new MatTableDataSource(this.listaLancemantos);
+          for (let lancamento of this.listaLancemantos) {
+            this.saldoPeriodo = this.saldoPeriodo + lancamento.valor_parcela;
+          }
         },
         error: (responseError) => {
           console.log("Erro");
@@ -66,11 +73,16 @@ export class LancamentoListagemComponent implements OnInit {
     this.service.finByIdUserDataPersonaliozada(this.idUser, this.data_inicio, this.data_fim)
       .subscribe({
         next: (resposta) => {
-          console.log(resposta);
+          this.saldoPeriodo = 0;
           this.data_inicio = resposta.data_inicio;
           this.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
-          this.dataSource = new MatTableDataSource(resposta.lancamentos);
+          this.listaLancemantos = resposta.lancamentos
+          this.dataSource = new MatTableDataSource(this.listaLancemantos);
+          for (let lancamento of this.listaLancemantos) {
+            console.log(lancamento.valor_parcela);
+            this.saldoPeriodo = this.saldoPeriodo + lancamento.valor_parcela;
+          }
         },
         error: (responseError) => {
           console.log("Erro");
@@ -85,6 +97,8 @@ export class LancamentoListagemComponent implements OnInit {
       width: '400px', height: '450px'
     });
   }
+
+
 
 
 }

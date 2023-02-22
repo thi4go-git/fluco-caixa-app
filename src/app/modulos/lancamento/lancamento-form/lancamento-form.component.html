@@ -11,74 +11,80 @@
     <mat-card-content>
 
 
-        <form [formGroup]="formulario">
-
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>id_usuario:</mat-label>
-                <input formControlName="id_usuario" matInput placeholder="Digite o id_usuario:" />
-            </mat-form-field>
+        <div class="container">
+            <form #arquivoForm="ngForm" (ngSubmit)="onSubmit()">
 
 
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>tipo:</mat-label>
-                <input formControlName="tipo" matInput placeholder="Digite o tipo:" />
-            </mat-form-field>
+                <div id="row">
 
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>descricao:</mat-label>
-                <input formControlName="descricao" matInput placeholder="Digite  descricao:" />
-            </mat-form-field>
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-icon matSuffix>fingerprint</mat-icon>
+                        <mat-label> <b>id_usuario:</b> </mat-label>
+                        <input matInput placeholder="Informe o id_usuario:" name="id_usuario"
+                            [(ngModel)]="lancamento.id_usuario" />
+                    </mat-form-field>
 
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label> <b>Tipo:</b> </mat-label>
+                        <select matNativeControl matInput [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="lancamento.tipo">
+                            <option *ngFor="let tipo of tipo_doc" [ngValue]="tipo">
+                                {{ tipo}}
+                            </option>
+                        </select>
+                    </mat-form-field>
 
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>data_referencia:</mat-label>
-                <input formControlName="data_referencia" matInput placeholder="Digite  data_referencia:" />
-            </mat-form-field>
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-icon matSuffix>picture_as_pdf</mat-icon>
+                        <mat-label> <b>descricao:</b> </mat-label>
+                        <input matInput placeholder="Informe descricao:" name="descricao"
+                            [(ngModel)]="lancamento.descricao" />
+                    </mat-form-field>
 
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label> <b>data_referencia:</b> </mat-label>
+                        <input matInput placeholder="Informe a data_referencia" type="date" name="data_referencia"
+                            [(ngModel)]="lancamento.data_referencia" />
+                    </mat-form-field>
 
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>valor_total:</mat-label>
-                <input formControlName="valor_total" matInput placeholder="Digite  valor_total:" />
-            </mat-form-field>
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-icon matSuffix>fingerprint</mat-icon>
+                        <mat-label> <b>valor_total:</b> </mat-label>
+                        <input matInput placeholder="Informe o valor_total:" name="valor_total"
+                            [(ngModel)]="lancamento.valor_total" />
+                    </mat-form-field>
 
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-icon matSuffix>fingerprint</mat-icon>
+                        <mat-label> <b>qtde_parcelas:</b> </mat-label>
+                        <input matInput placeholder="Informe qtde_parcelas:" name="qtde_parcelas"
+                            [(ngModel)]="lancamento.qtde_parcelas" />
+                    </mat-form-field>
 
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>qtde_parcelas:</mat-label>
-                <input formControlName="qtde_parcelas" matInput placeholder="Digite  qtde_parcelas:" />
-            </mat-form-field>
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label> <b>natureza:</b> </mat-label>
+                        <select matNativeControl matInput [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="lancamento.natureza">
+                            <option *ngFor="let natureza of natureza" [ngValue]="natureza">
+                                {{ natureza }}
+                            </option>
+                        </select>
+                    </mat-form-field>
 
+                </div>
 
-            <mat-form-field class="full-width">
-                <mat-icon matSuffix>face</mat-icon>
-                <mat-label>natureza:</mat-label>
-                <input formControlName="natureza" matInput placeholder="Digite  natureza:" />
-            </mat-form-field>
+                <br />
 
-
-
-
-            <div>
-                <button type="submit" class="btn btn-success" [disabled]="!formulario.valid">
-                    <i class="fa fa-save"></i>
-                    <mat-icon>check_circle</mat-icon>Salvar
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-sync-alt"></i>
+                    <mat-icon>save</mat-icon>Salvar
                 </button>
-
                 <button type="button" class="btn btn-danger ml-2" (click)="fecharDialog()">
                     <i class="fa fa-solid fa-arrow-alt-circle-left"></i>
-                    <mat-icon>fast_rewind</mat-icon>Fechar
+                    <mat-icon>keyboard_return</mat-icon>Voltar
                 </button>
-            </div>
-
-
-
-
-        </form>
+            </form>
+        </div>
 
 
     </mat-card-content>

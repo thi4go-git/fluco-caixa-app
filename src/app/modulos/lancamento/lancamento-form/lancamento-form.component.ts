@@ -1,35 +1,103 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { LancamentoDTO } from 'src/app/entity-class/lancamentoDTO';
+import { LancamentoService } from 'src/app/services/lancamento.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
+
 
 @Component({
   selector: 'app-lancamento-form',
   templateUrl: './lancamento-form.component.html',
   styleUrls: ['./lancamento-form.component.css']
 })
-export class LancamentoFormComponent {
+export class LancamentoFormComponent implements OnInit {
 
-  formulario: FormGroup;
   hide = true;
+  natureza: any[] = [];
+  situacao: any[] = [];
+
+  tipo_doc: any[] = [];
+
+  lancamento: LancamentoDTO;
+  data_referencia!: Date;
 
   constructor(
     public dialogRef: MatDialogRef<LancamentoFormComponent>,
-    private formBuild: FormBuilder,
+    private service: LancamentoService,
+    private snackBar: MatSnackBar
   ) {
+    this.lancamento = new LancamentoDTO
+  }
 
-    this.formulario = this.formBuild.group({
-      tipo: ['', Validators.required],
-      descricao: ['', Validators.required],
-      data_referencia: ['', Validators.required],
-      valor_total: ['', Validators.required],
-      qtde_parcelas: ['', Validators.required],
-      natureza: ['', Validators.required],
-      id_usuario: ['1', Validators.required],
-    })
+
+  ngOnInit(): void {
+    this.definirNatureza();
+    this.definirSituacao();
+    this.definirTipo();
+  }
+
+  definirNatureza() {
+    this.service.findAllNaturezas()
+      .subscribe({
+        next: (resposta) => {
+          this.natureza = resposta;
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
+  }
+
+  definirSituacao() {
+    this.service.findAllSituacao()
+      .subscribe({
+        next: (resposta) => {
+          this.situacao = resposta;
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
+  }
+
+
+  definirTipo() {
+    this.service.findAllTipo()
+      .subscribe({
+        next: (resposta) => {
+          this.tipo_doc = resposta;
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
   }
 
   fecharDialog() {
     this.dialogRef.close();
+  }
+
+  onSubmit() {
+    this.service.save(this.lancamento)
+      .subscribe({
+        next: (resposta) => {
+          console.log(resposta);
+          this.snackBar.open("Sucesso ao salvar!", "Info!", {
+            duration: 2000
+          });
+          window.location.reload();   
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
+
   }
 
 }

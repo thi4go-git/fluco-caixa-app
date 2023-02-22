@@ -16,6 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 
@@ -39,7 +42,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatTableModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSliderModule,
+    MatSnackBarModule
 
   ], exports: [
     LancamentoListagemComponent,
