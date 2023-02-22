@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { LancamentoDTO } from 'src/app/entity-class/lancamentoDTO';
 import { LancamentoService } from 'src/app/services/lancamento.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ParameterViolations } from 'src/app/entity-class/parameterViolations';
 
 
 
@@ -22,6 +23,8 @@ export class LancamentoFormComponent implements OnInit {
 
   lancamento: LancamentoDTO;
   data_referencia!: Date;
+
+  msgError: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<LancamentoFormComponent>,
@@ -92,8 +95,8 @@ export class LancamentoFormComponent implements OnInit {
           });
         },
         error: (responseError) => {
-          console.log("Erro");
-          console.log(responseError);
+          let array = responseError.error.parameterViolations[0];
+          this.msgError = array.message;
         }
       });
 

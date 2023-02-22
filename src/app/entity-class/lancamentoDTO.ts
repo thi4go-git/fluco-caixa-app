@@ -1,5 +1,5 @@
 export class LancamentoDTO {
-    id_usuario: number = 0;
+    username: string = '';
     tipo: any;
     descricao: string = '';
     data_referencia: Date | undefined;
