@@ -90,7 +90,6 @@ export class LancamentoFormComponent implements OnInit {
           this.snackBar.open("Sucesso ao salvar!", "Info!", {
             duration: 2000
           });
-          window.location.reload();   
         },
         error: (responseError) => {
           console.log("Erro");
