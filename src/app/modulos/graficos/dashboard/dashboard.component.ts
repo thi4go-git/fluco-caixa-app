@@ -1,26 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import Chart from 'chart.js/auto'
+import { LancamentoDashboardDTO } from 'src/app/entity-class/lancamentoDashboardDTO';
+import { LancamentoService } from 'src/app/services/lancamento.service';
 
-
-const entradas = [
-  { year: 2010, count: 5422 },
-  { year: 2011, count: 4000 },
-  { year: 2012, count: 3542 },
-  { year: 2013, count: 4512 },
-  { year: 2014, count: 3221 },
-  { year: 2015, count: 2145 },
-  { year: 2016, count: 2459 },
-];
-
-const saidas = [
-  { year: 2010, count: 1234 },
-  { year: 2011, count: 2456 },
-  { year: 2012, count: 3532 },
-  { year: 2013, count: 5000 },
-  { year: 2014, count: 3221 },
-  { year: 2015, count: 4567 },
-  { year: 2016, count: 2459 },
-];
 
 
 @Component({
@@ -30,33 +12,64 @@ const saidas = [
 })
 export class DashboardComponent implements OnInit {
 
+  lancamentosDashboard: LancamentoDashboardDTO[] = [];
 
 
+  constructor(
+    private service: LancamentoService
+  ) {
 
-
+  }
 
   ngOnInit(): void {
-    this.carregarCanvasBarra();
-    this.carregarCanvasPizza();
+    this.carregarListaDash();
   }
+
+
+
+  carregarListaDash() {
+    this.service.getLancamentosDashboard()
+      .subscribe({
+        next: (resposta) => {
+          this.lancamentosDashboard = resposta;
+
+          this.carregarCanvasBarra();
+          this.carregarCanvasLinha();
+
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
+  }
+
+
 
   @ViewChild("canvasBarra", { static: true }) canvasBarra: ElementRef | undefined
   carregarCanvasBarra() {
+
+
     new Chart(this.canvasBarra?.nativeElement, {
       type: 'bar',
       data: {
-        labels: entradas.map(row => row.year),
+        labels: this.lancamentosDashboard.map(row => row.mes),
         datasets: [
           {
             label: 'Entradas',
-            data: entradas.map(row => row.count),
-            backgroundColor: ['rgba(4, 177, 68)']
-
+            data: this.lancamentosDashboard.map(row => row.saldo_entradas),
+            backgroundColor: ['rgba(0, 0, 255)']
           },
           {
             label: 'Saídas',
-            data: saidas.map(row => row.count),
-            backgroundColor: ['rgba(220, 80, 40)']
+            data: this.lancamentosDashboard.map(row => Math.abs(row.saldo_saidas)),
+            backgroundColor: ['rgba(255, 0, 0)']
+          },
+          {
+            label: 'Saldo',
+            data: this.lancamentosDashboard.map(row => (row.saldo_entradas + row.saldo_saidas)),
+
+            backgroundColor: ['rgba(255, 165, 0)']
           }
         ]
       },
@@ -64,26 +77,34 @@ export class DashboardComponent implements OnInit {
         responsive: true
       }
     })
+
   }
 
 
 
-  @ViewChild("canvasPizza", { static: true }) canvasPizza: ElementRef | undefined
-  carregarCanvasPizza() {
-    new Chart(this.canvasPizza?.nativeElement, {
+  @ViewChild("canvasLine", { static: true }) canvasLine: ElementRef | undefined
+  carregarCanvasLinha() {
+
+    new Chart(this.canvasLine?.nativeElement, {
       type: 'line',
       data: {
-        labels: entradas.map(row => row.year),
+        labels: this.lancamentosDashboard.map(row => row.mes),
         datasets: [
           {
             label: 'Entradas',
-            data: entradas.map(row => row.count),
-            borderColor: ['rgba(4, 177, 68)']
+            data: this.lancamentosDashboard.map(row => row.saldo_entradas),
+            //   backgroundColor: ['rgba(4, 177, 255)']
           },
           {
             label: 'Saídas',
-            data: saidas.map(row => row.count),
-            borderColor: ['rgba(220, 80, 40)'],
+            data: this.lancamentosDashboard.map(row => Math.abs(row.saldo_saidas)),
+            // backgroundColor: ['rgba(255, 80, 40)']
+          },
+          {
+            label: 'Saldo',
+            data: this.lancamentosDashboard.map(row => (row.saldo_entradas + row.saldo_saidas)),
+
+            //  backgroundColor: ['rgba(255, 165, 0)']
           }
         ]
       },
@@ -91,6 +112,7 @@ export class DashboardComponent implements OnInit {
         responsive: true
       }
     })
+
   }
 
 

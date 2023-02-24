@@ -5,6 +5,7 @@ import { LancamentoDTOResponse } from '../entity-class/lancamentoDTOResponse';
 import { Observable } from 'rxjs';
 import { LancamentoDataDTO } from '../entity-class/lancamentoDataDTO';
 import { LancamentoDTO } from '../entity-class/lancamentoDTO';
+import { LancamentoDashboardDTO } from '../entity-class/lancamentoDashboardDTO';
 
 
 
@@ -46,5 +47,9 @@ export class LancamentoService {
 
   findAllTipo(): Observable<any[]> {
     return this.http.get<any[]>(this.apiLancamento + '/lancamentos/tipo');
+  }
+
+  getLancamentosDashboard(): Observable<LancamentoDashboardDTO[]> {
+    return this.http.get<LancamentoDashboardDTO[]>(this.apiLancamento + '/lancamentos/dashboard');
   }
 }
