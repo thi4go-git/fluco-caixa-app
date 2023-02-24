@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { LancamentoModule } from './modulos/lancamento/lancamento.module';
 import { NotFoundComponent } from './componentes/not-found/not-found.component';
 import { DateFormatPipe } from './entity-class/date-format-pipe';
+import { GraficosModule } from './modulos/graficos/graficos.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DateFormatPipe } from './entity-class/date-format-pipe';
     HttpClientModule,
     CommonModule,
     TemplateModule,
-    LancamentoModule
+    LancamentoModule,
+    GraficosModule
   ],
   providers: [
     LancamentoService

@@ -24,7 +24,7 @@ export class LancamentoFormComponent implements OnInit {
   lancamento: LancamentoDTO;
   data_referencia!: Date;
 
-  msgError: string = '';
+  msgErros: ParameterViolations[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<LancamentoFormComponent>,
@@ -95,8 +95,7 @@ export class LancamentoFormComponent implements OnInit {
           });
         },
         error: (responseError) => {
-          let array = responseError.error.parameterViolations[0];
-          this.msgError = array.message;
+          this.msgErros = responseError.error.parameterViolations;
         }
       });
 

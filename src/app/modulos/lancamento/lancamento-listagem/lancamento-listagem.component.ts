@@ -24,7 +24,9 @@ export class LancamentoListagemComponent implements OnInit {
   dataSource: MatTableDataSource<LancamentoDTOResponse> = new MatTableDataSource;
   //
   listaLancemantos: LancamentoDTOResponse[] = [];
-  saldoPeriodo: number = 0;
+  saldoPeriodo: string = '';
+  entradasPeriodo: string = '';
+  saidasPeriodo: string = '';
 
   constructor(
     private service: LancamentoService,
@@ -43,21 +45,46 @@ export class LancamentoListagemComponent implements OnInit {
     this.service.finByIdUserDataMesAtual(this.idUser)
       .subscribe({
         next: (resposta) => {
-          this.saldoPeriodo = 0;
           this.data_inicio = resposta.data_inicio;
           this.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
           this.listaLancemantos = resposta.lancamentos
           this.dataSource = new MatTableDataSource(this.listaLancemantos);
-          for (let lancamento of this.listaLancemantos) {
-            this.saldoPeriodo = this.saldoPeriodo + lancamento.valor_parcela;
-          }
+          this.definirInfo();
         },
         error: (responseError) => {
           console.log("Erro");
           console.log(responseError);
         }
       });
+  }
+
+
+  definirInfo() {
+    this.saldoPeriodo = '';
+    let sumSaldo = 0;
+    let sumEntrada = 0;
+    let sumSaida = 0;
+    for (let lancamento of this.listaLancemantos) {
+      sumSaldo = sumSaldo + lancamento.valor_parcela;
+      if (lancamento.tipo == 'CREDITO') {
+        sumEntrada = sumEntrada + lancamento.valor_parcela;
+      } else {
+        sumSaida = sumSaida + lancamento.valor_parcela;
+      }
+    }
+    this.saldoPeriodo =
+      sumSaldo.toLocaleString(undefined,
+        { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    //
+    this.entradasPeriodo =
+      sumEntrada.toLocaleString(undefined,
+        { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    //
+    this.saidasPeriodo =
+      sumSaida.toLocaleString(undefined,
+        { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   }
 
 
@@ -73,16 +100,13 @@ export class LancamentoListagemComponent implements OnInit {
     this.service.finByIdUserDataPersonaliozada(this.idUser, this.data_inicio, this.data_fim)
       .subscribe({
         next: (resposta) => {
-          this.saldoPeriodo = 0;
+
           this.data_inicio = resposta.data_inicio;
           this.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
           this.listaLancemantos = resposta.lancamentos
           this.dataSource = new MatTableDataSource(this.listaLancemantos);
-          for (let lancamento of this.listaLancemantos) {
-            console.log(lancamento.valor_parcela);
-            this.saldoPeriodo = this.saldoPeriodo + lancamento.valor_parcela;
-          }
+          this.definirInfo();
         },
         error: (responseError) => {
           console.log("Erro");
