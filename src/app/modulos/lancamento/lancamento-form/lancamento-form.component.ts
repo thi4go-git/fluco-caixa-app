@@ -21,7 +21,7 @@ export class LancamentoFormComponent implements OnInit {
 
   tipo_doc: any[] = [];
 
-  lancamento: LancamentoDTO;
+  lancamento!: LancamentoDTO;
   data_referencia!: Date;
 
   msgErros: ParameterViolations[] = [];
@@ -30,9 +30,7 @@ export class LancamentoFormComponent implements OnInit {
     public dialogRef: MatDialogRef<LancamentoFormComponent>,
     private service: LancamentoService,
     private snackBar: MatSnackBar
-  ) {
-    this.lancamento = new LancamentoDTO
-  }
+  ) {  }
 
 
   ngOnInit(): void {

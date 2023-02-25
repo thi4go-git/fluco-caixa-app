@@ -13,6 +13,9 @@ import { LancamentoModule } from './modulos/lancamento/lancamento.module';
 import { NotFoundComponent } from './componentes/not-found/not-found.component';
 import { DateFormatPipe } from './entity-class/date-format-pipe';
 import { GraficosModule } from './modulos/graficos/graficos.module';
+import { LoginModule } from './modulos/login/login.module';
+
+
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { GraficosModule } from './modulos/graficos/graficos.module';
     CommonModule,
     TemplateModule,
     LancamentoModule,
-    GraficosModule
+    GraficosModule,
+    LoginModule    
   ],
   providers: [
     LancamentoService

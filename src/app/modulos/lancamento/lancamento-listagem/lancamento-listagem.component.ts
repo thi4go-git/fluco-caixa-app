@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LancamentoDTOResponse } from 'src/app/entity-class/lancamentoDTOResponse';
 import { LancamentoService } from 'src/app/services/lancamento.service';
+import { apiEnvironment } from 'src/environments/apiEnvironment';
 import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.component';
 
 @Component({
@@ -13,7 +14,6 @@ import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.comp
 })
 export class LancamentoListagemComponent implements OnInit {
 
-  idUser = 1;
   //
   data_inicio: Date | undefined;
   data_fim: Date | undefined;
@@ -35,6 +35,7 @@ export class LancamentoListagemComponent implements OnInit {
   ) { }
 
 
+
   ngOnInit(): void {
     this.listagemMesAtual();
   }
@@ -42,7 +43,7 @@ export class LancamentoListagemComponent implements OnInit {
 
   listagemMesAtual() {
 
-    this.service.finByIdUserDataMesAtual(this.idUser)
+    this.service.finByIdUserDataMesAtual()
       .subscribe({
         next: (resposta) => {
           this.data_inicio = resposta.data_inicio;
@@ -97,7 +98,7 @@ export class LancamentoListagemComponent implements OnInit {
     console.log(this.data_inicio);
     console.log(this.data_fim);
 
-    this.service.finByIdUserDataPersonaliozada(this.idUser, this.data_inicio, this.data_fim)
+    this.service.finByIdUserDataPersonaliozada(this.data_inicio, this.data_fim)
       .subscribe({
         next: (resposta) => {
 

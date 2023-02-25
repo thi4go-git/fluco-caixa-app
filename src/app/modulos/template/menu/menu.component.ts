@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { apiEnvironment } from 'src/environments/apiEnvironment';
 
 @Component({
@@ -12,31 +13,27 @@ export class MenuComponent implements OnInit {
 
 
   usuarioLogado: string = "Deslogado";
-  authorities: string[] = [];
-  administrador: boolean = false;
   versao: string = '';
 
   constructor(
+    private authService: AutenticacaoService,
     private router: Router
   ) { }
 
+
   ngOnInit(): void {
-    this.usuarioLogado = 'TEste'
-    this.authorities = ['USER']
-    this.administrador = true
+    this.usuarioLogado = this.authService.getUsuarioAutenticado();
     this.versao = apiEnvironment.versao;
   }
 
   logout() {
-
+    this.authService.encerrarSessao();
+    this.router.navigate(['/login']);
   }
+
 
   navegarInicio() {
-
-  }
-
-  navegarAlvaras() {
-
+    this.router.navigate(['/graficos/dashboard']);
   }
 
 

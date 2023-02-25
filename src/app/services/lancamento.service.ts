@@ -1,40 +1,48 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiEnvironment } from 'src/environments/apiEnvironment';
-import { LancamentoDTOResponse } from '../entity-class/lancamentoDTOResponse';
 import { Observable } from 'rxjs';
 import { LancamentoDataDTO } from '../entity-class/lancamentoDataDTO';
 import { LancamentoDTO } from '../entity-class/lancamentoDTO';
-import { LancamentoDashboardDTO } from '../entity-class/lancamentoDashboardDTO';
+import { DashboardDTO } from '../entity-class/dashboardDTO';
+import { AutenticacaoService } from './autenticacao.service';
 
 
 
 @Injectable({ providedIn: 'root' })
 export class LancamentoService {
 
+
+  username: string = "";
+
   apiLancamento: string = apiEnvironment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AutenticacaoService
+  ) {
+    this.username = this.authService.getUsuarioAutenticado();
+  }
 
   save(lancamento: LancamentoDTO): Observable<LancamentoDTO> {
     return this.http.post<LancamentoDTO>(this.apiLancamento + '/lancamentos', lancamento);
   }
 
-  finByIdUser(idUser: number): Observable<LancamentoDTOResponse[]> {
-    return this.http.get<LancamentoDTOResponse[]>(this.apiLancamento + '/lancamentos/usuario/' + idUser);
-  }
 
-  finByIdUserDataMesAtual(idUser: number): Observable<LancamentoDataDTO> {
-    return this.http.get<LancamentoDataDTO>(this.apiLancamento + '/lancamentos/usuario/' + idUser + '/data');
+  finByIdUserDataMesAtual(): Observable<LancamentoDataDTO> {
+    const params = new HttpParams()
+      .set('username', this.username);
+    return this.http.get<LancamentoDataDTO>(this.apiLancamento + '/lancamentos', { params });
   }
 
   finByIdUserDataPersonaliozada(
-    idUser: number, inicio: any, fim: any): Observable<LancamentoDataDTO> {
+    inicio: any, fim: any): Observable<LancamentoDataDTO> {
     const params = new HttpParams()
       .set('inicio', inicio)
-      .set('fim', fim);
+      .set('fim', fim)
+      .set('username', this.username);
     return this.http.get<LancamentoDataDTO>
-      (this.apiLancamento + '/lancamentos/usuario/' + idUser + '/data', { params });
+      (this.apiLancamento + '/lancamentos', { params });
   }
 
   findAllNaturezas(): Observable<any[]> {
@@ -49,7 +57,9 @@ export class LancamentoService {
     return this.http.get<any[]>(this.apiLancamento + '/lancamentos/tipo');
   }
 
-  getLancamentosDashboard(): Observable<LancamentoDashboardDTO[]> {
-    return this.http.get<LancamentoDashboardDTO[]>(this.apiLancamento + '/lancamentos/dashboard');
+  getLancamentosDashboard(): Observable<DashboardDTO> {
+    const params = new HttpParams()
+      .set('username', this.username);
+    return this.http.get<DashboardDTO>(this.apiLancamento + '/lancamentos/dashboard', { params });
   }
 }
