@@ -14,6 +14,7 @@ import { NotFoundComponent } from './componentes/not-found/not-found.component';
 import { DateFormatPipe } from './entity-class/date-format-pipe';
 import { GraficosModule } from './modulos/graficos/graficos.module';
 import { LoginModule } from './modulos/login/login.module';
+import { NaturezaModule } from './modulos/natureza/natureza.module';
 
 
 
@@ -33,7 +34,8 @@ import { LoginModule } from './modulos/login/login.module';
     TemplateModule,
     LancamentoModule,
     GraficosModule,
-    LoginModule    
+    LoginModule,
+    NaturezaModule
   ],
   providers: [
     LancamentoService

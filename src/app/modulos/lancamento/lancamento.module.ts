@@ -18,6 +18,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DecimalPipe } from 'src/app/entity-class/decimal-pipe';
+
+
 
 
 
@@ -27,7 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     LancamentoListagemComponent,
-    LancamentoFormComponent
+    LancamentoFormComponent,
+    DecimalPipe
   ],
   imports: [
     CommonModule,
@@ -44,7 +48,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDialogModule,
     ReactiveFormsModule,
     MatSliderModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+
+
 
   ], exports: [
     LancamentoListagemComponent,

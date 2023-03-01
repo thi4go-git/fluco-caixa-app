@@ -58,10 +58,7 @@ export class AutenticacaoService {
 
   getUsuarioAutenticado() {
     const token = this.obterTokenStorage();
-
     if (token) {
-      console.log(this.jwtHelper.decodeToken(token));
-
       const usuario = this.jwtHelper.decodeToken(token).preferred_username
       return usuario;
     }

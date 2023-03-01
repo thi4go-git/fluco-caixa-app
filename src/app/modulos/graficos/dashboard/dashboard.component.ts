@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import Chart from 'chart.js/auto'
 import { LancamentoDashboardDTO } from 'src/app/entity-class/lancamentoDashboardDTO';
 import { LancamentoService } from 'src/app/services/lancamento.service';
-import { apiEnvironment } from 'src/environments/apiEnvironment';
+
 
 
 

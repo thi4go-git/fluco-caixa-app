@@ -1,3 +1,5 @@
+import { NaturezaDTO } from "./naturezaDTO";
+
 export class LancamentoDTOResponse {
     id: number = 0;
     tipo: any;
@@ -6,6 +8,6 @@ export class LancamentoDTOResponse {
     valor_parcela: number = 0;
     qtde_parcelas: number = 0;
     nr_parcela: number = 0;
-    natureza: any;
-    situacao: any
+    situacao: any;
+    natureza: NaturezaDTO = new NaturezaDTO();
 }

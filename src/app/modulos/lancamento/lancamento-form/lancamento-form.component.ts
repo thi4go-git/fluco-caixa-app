@@ -4,6 +4,8 @@ import { LancamentoDTO } from 'src/app/entity-class/lancamentoDTO';
 import { LancamentoService } from 'src/app/services/lancamento.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ParameterViolations } from 'src/app/entity-class/parameterViolations';
+import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { NaturezaDTO } from 'src/app/entity-class/naturezaDTO';
 
 
 
@@ -15,8 +17,9 @@ import { ParameterViolations } from 'src/app/entity-class/parameterViolations';
 })
 export class LancamentoFormComponent implements OnInit {
 
+
   hide = true;
-  natureza: any[] = [];
+  natureza: NaturezaDTO[] = [];
   situacao: any[] = [];
 
   tipo_doc: any[] = [];
@@ -29,8 +32,12 @@ export class LancamentoFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<LancamentoFormComponent>,
     private service: LancamentoService,
-    private snackBar: MatSnackBar
-  ) {  }
+    private snackBar: MatSnackBar,
+    private auth: AutenticacaoService
+  ) {
+    this.lancamento = new LancamentoDTO();
+    this.lancamento.username = auth.getUsuarioAutenticado();
+  }
 
 
   ngOnInit(): void {
@@ -40,10 +47,17 @@ export class LancamentoFormComponent implements OnInit {
   }
 
   definirNatureza() {
-    this.service.findAllNaturezas()
+    this.service.getNaturezasByUsername()
       .subscribe({
         next: (resposta) => {
-          this.natureza = resposta;
+          console.log(resposta);
+          if (resposta == null) {
+            this.snackBar.open("Não existem Naturezas, favor cadastrar", "Info!", {
+              duration: 5000
+            });
+          } else {
+            this.natureza = resposta;
+          }
         },
         error: (responseError) => {
           console.log("Erro");
@@ -84,10 +98,13 @@ export class LancamentoFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.salvar();
+  }
+
+  salvar() {
     this.service.save(this.lancamento)
       .subscribe({
         next: (resposta) => {
-          console.log(resposta);
           this.snackBar.open("Sucesso ao salvar!", "Info!", {
             duration: 2000
           });

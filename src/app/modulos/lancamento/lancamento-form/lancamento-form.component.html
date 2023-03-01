@@ -36,7 +36,7 @@
                         <select matNativeControl matInput [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="lancamento.tipo">
                             <option *ngFor="let tipo of tipo_doc" [ngValue]="tipo">
-                                {{ tipo}}
+                                {{ tipo }}
                             </option>
                         </select>
                     </mat-form-field>
@@ -57,7 +57,7 @@
                     <mat-form-field class="full-width" appearance="fill">
                         <mat-icon matSuffix>fingerprint</mat-icon>
                         <mat-label> <b>valor_total:</b> </mat-label>
-                        <input matInput placeholder="Informe o valor_total:" name="valor_total"
+                        <input matInput placeholder="Informe o valor_total:" name="valor_total" type="text"
                             [(ngModel)]="lancamento.valor_total" />
                     </mat-form-field>
 
@@ -71,9 +71,9 @@
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label> <b>natureza:</b> </mat-label>
                         <select matNativeControl matInput [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="lancamento.natureza">
-                            <option *ngFor="let natureza of natureza" [ngValue]="natureza">
-                                {{ natureza }}
+                            [(ngModel)]="lancamento.id_natureza">
+                            <option *ngFor="let natureza of natureza" [ngValue]="natureza.id">
+                                {{ natureza.descricao }}
                             </option>
                         </select>
                     </mat-form-field>

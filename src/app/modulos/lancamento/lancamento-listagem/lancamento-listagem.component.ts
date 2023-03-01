@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LancamentoDTOResponse } from 'src/app/entity-class/lancamentoDTOResponse';
 import { LancamentoService } from 'src/app/services/lancamento.service';
-import { apiEnvironment } from 'src/environments/apiEnvironment';
 import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class LancamentoListagemComponent implements OnInit {
   data_fim: Date | undefined;
   total_lancamentos: number = 0;
   displayedColumns: string[] = ['id', 'valor_parcela', 'data_lancamento', 'descricao', 'tipo'
-    , 'qtde_parcelas', 'nr_parcela', 'natureza'];
+    , 'qtde_parcelas', 'nr_parcela', 'natureza', 'delete'];
   //
   dataSource: MatTableDataSource<LancamentoDTOResponse> = new MatTableDataSource;
   //
@@ -28,10 +28,12 @@ export class LancamentoListagemComponent implements OnInit {
   entradasPeriodo: string = '';
   saidasPeriodo: string = '';
 
+
   constructor(
     private service: LancamentoService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
 
@@ -46,10 +48,13 @@ export class LancamentoListagemComponent implements OnInit {
     this.service.finByIdUserDataMesAtual()
       .subscribe({
         next: (resposta) => {
+          console.log(resposta);
+
           this.data_inicio = resposta.data_inicio;
           this.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
-          this.listaLancemantos = resposta.lancamentos
+          this.listaLancemantos = resposta.lancamentos;
+          //
           this.dataSource = new MatTableDataSource(this.listaLancemantos);
           this.definirInfo();
         },
@@ -121,6 +126,30 @@ export class LancamentoListagemComponent implements OnInit {
     this.dialog.open(LancamentoFormComponent, {
       width: '400px', height: '450px'
     });
+  }
+
+
+  deletarLancamento(lancamento: LancamentoDTOResponse) {
+
+    this.service.deletarporLancamentoId(lancamento.id)
+      .subscribe({
+        next: (resposta) => {
+
+          this.snackBar.open("Sucesso ao deletar!", "Sucess!", {
+            duration: 2000
+          });
+
+          this.listagemMesAtual();
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+          this.snackBar.open("Erro ao deletar!", "Erro!", {
+            duration: 5000
+          });
+        }
+      });
+
   }
 
 
