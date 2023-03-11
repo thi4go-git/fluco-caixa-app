@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { TemplateRoutingModule } from './template-routing.module';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { CabecalhoComponent } from './cabecalho/cabecalho.component';
 import { MenuComponent } from './menu/menu.component';
 import { RodapeComponent } from './rodape/rodape.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -17,11 +14,8 @@ import { RodapeComponent } from './rodape/rodape.component';
     RodapeComponent
   ],
   imports: [
-    CommonModule,
-    TemplateRoutingModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule
+    SharedModule,
+    TemplateRoutingModule
   ], exports: [
     CabecalhoComponent,
     MenuComponent,

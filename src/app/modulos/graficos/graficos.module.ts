@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { GraficosRoutingModule } from './graficos-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
 
+import { SharedModule } from '../shared/shared.module';
+import { GraficosRoutingModule } from './graficos-routing.module';
 
 
 @NgModule({
@@ -13,10 +10,8 @@ import { MatDividerModule } from '@angular/material/divider';
     DashboardComponent
   ],
   imports: [
-    CommonModule,
-    GraficosRoutingModule,
-    MatCardModule,
-    MatDividerModule
+    SharedModule,
+    GraficosRoutingModule
   ], exports: [
     DashboardComponent
   ]

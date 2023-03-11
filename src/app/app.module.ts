@@ -1,44 +1,18 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TemplateModule } from './modulos/template/template.module';
-import { LancamentoService } from './services/lancamento.service';
-import { HttpClientModule } from '@angular/common/http';
 import { LayoutComponent } from './componentes/layout/layout.component';
-import { AppRoutingModule } from './app-routing.module';
-import { CommonModule } from '@angular/common';
-import { LancamentoModule } from './modulos/lancamento/lancamento.module';
-import { NotFoundComponent } from './componentes/not-found/not-found.component';
-import { DateFormatPipe } from './entity-class/date-format-pipe';
-import { GraficosModule } from './modulos/graficos/graficos.module';
-import { LoginModule } from './modulos/login/login.module';
-import { NaturezaModule } from './modulos/natureza/natureza.module';
+import { SharedModule } from './modulos/shared/shared.module';
+import { TemplateModule } from './modulos/template/template.module';
 
-
+// MÓDULO APENAS PARA START DA APLICAÇÃO
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LayoutComponent,
-    NotFoundComponent,
-    DateFormatPipe
+    LayoutComponent
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    CommonModule,
-    TemplateModule,
-    LancamentoModule,
-    GraficosModule,
-    LoginModule,
-    NaturezaModule
-  ],
-  providers: [
-    LancamentoService
+    SharedModule,
+    TemplateModule
   ],
   bootstrap: [AppComponent]
 })
