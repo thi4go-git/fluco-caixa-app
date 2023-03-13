@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
-
+import { apiEnvironment } from 'src/environments/apiEnvironment';
 
 
 @Component({
@@ -18,6 +18,7 @@ export class LoginFormComponent {
   loginError: boolean;
   hide = true;
   usuarioLogado: string = "Deslogado";
+  version = apiEnvironment.versao;
 
   constructor(
     private router: Router,

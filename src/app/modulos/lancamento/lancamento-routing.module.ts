@@ -11,7 +11,7 @@ import { LancamentoListagemComponent } from './lancamento-listagem/lancamento-li
 
 const routes: Routes = [
   {
-    path: 'lancamento', component: LayoutComponent,canActivate: [AutenticacaoGuard], children: [
+    path: 'lancamento', component: LayoutComponent, canActivate: [AutenticacaoGuard], children: [
       { path: 'listagem', component: LancamentoListagemComponent, title: 'Lançamentos Período' },
       { path: 'formulario', component: LancamentoFormComponent, title: 'Novo Lançamento' },
       { path: '', redirectTo: '/lancamento/listagem', pathMatch: 'full' },

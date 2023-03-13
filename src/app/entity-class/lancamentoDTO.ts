@@ -1,4 +1,5 @@
 export class LancamentoDTO {
+    id: number = 0;
     username: string = '';
     tipo: any;
     descricao: string = '';

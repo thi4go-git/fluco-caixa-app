@@ -8,6 +8,7 @@ import { DashboardDTO } from '../entity-class/dashboardDTO';
 import { AutenticacaoService } from './autenticacao.service';
 import { NaturezaDTO } from '../entity-class/naturezaDTO';
 import { Natureza } from '../entity-class/natureza';
+import { LancamentoFilterDTO } from '../entity-class/lancamentoFilterDTO';
 
 
 
@@ -45,6 +46,15 @@ export class LancamentoService {
       .set('username', this.username);
     return this.http.get<LancamentoDataDTO>
       (this.apiUrl + '/lancamentos', { params });
+  }
+
+  finByIdUserDataFilter(lancamentoFilter: LancamentoFilterDTO): Observable<LancamentoDataDTO> {
+    const params = new HttpParams()
+      .set('inicio', lancamentoFilter.data_inicio)
+      .set('fim', lancamentoFilter.data_fim);
+    lancamentoFilter.username = this.username;
+    return this.http.post<LancamentoDataDTO>(this.apiUrl + '/lancamentos/filter',
+      lancamentoFilter, { params });
   }
 
   getNaturezasByUsername(): Observable<NaturezaDTO[]> {

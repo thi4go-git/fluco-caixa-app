@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LancamentoDTOResponse } from 'src/app/entity-class/lancamentoDTOResponse';
+import { LancamentoFilterDTO } from 'src/app/entity-class/lancamentoFilterDTO';
+import { NaturezaDTO } from 'src/app/entity-class/naturezaDTO';
 import { LancamentoService } from 'src/app/services/lancamento.service';
 import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.component';
 
@@ -15,8 +17,6 @@ import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.comp
 export class LancamentoListagemComponent implements OnInit {
 
   //
-  data_inicio: Date | undefined;
-  data_fim: Date | undefined;
   total_lancamentos: number = 0;
   displayedColumns: string[] = ['id', 'valor_parcela', 'data_lancamento', 'descricao', 'tipo'
     , 'qtde_parcelas', 'nr_parcela', 'natureza', 'delete'];
@@ -28,6 +28,12 @@ export class LancamentoListagemComponent implements OnInit {
   entradasPeriodo: string = '';
   saidasPeriodo: string = '';
 
+  lancamentoDeletar: LancamentoDTOResponse = new LancamentoDTOResponse;
+  tipoLancamento: any[] = [];
+
+  lancamentoFilter: LancamentoFilterDTO = new LancamentoFilterDTO;
+
+  naturezas: NaturezaDTO[] = [];
 
   constructor(
     private service: LancamentoService,
@@ -40,18 +46,50 @@ export class LancamentoListagemComponent implements OnInit {
 
   ngOnInit(): void {
     this.listagemMesAtual();
+    this.definirTipo();
+    this.definirNatureza();
   }
 
+  definirNatureza() {
+    this.service.getNaturezasByUsername()
+      .subscribe({
+        next: (resposta) => {
+          if (resposta == null) {
+            this.snackBar.open("Não existem Naturezas, favor cadastrar", "Info!", {
+              duration: 5000
+            });
+          } else {
+            this.naturezas = resposta;
+          }
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
+  }
+
+
+  definirTipo() {
+    this.service.findAllTipo()
+      .subscribe({
+        next: (resposta) => {
+          this.tipoLancamento = resposta;
+        },
+        error: (responseError) => {
+          console.log("Erro");
+          console.log(responseError);
+        }
+      });
+  }
 
   listagemMesAtual() {
 
     this.service.finByIdUserDataMesAtual()
       .subscribe({
         next: (resposta) => {
-          console.log(resposta);
-
-          this.data_inicio = resposta.data_inicio;
-          this.data_fim = resposta.data_fim;
+          this.lancamentoFilter.data_inicio = resposta.data_inicio;
+          this.lancamentoFilter.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
           this.listaLancemantos = resposta.lancamentos;
           //
@@ -100,25 +138,25 @@ export class LancamentoListagemComponent implements OnInit {
   }
 
   listagemPersonalizada() {
-    console.log(this.data_inicio);
-    console.log(this.data_fim);
 
-    this.service.finByIdUserDataPersonaliozada(this.data_inicio, this.data_fim)
+    this.service.finByIdUserDataFilter(this.lancamentoFilter)
       .subscribe({
         next: (resposta) => {
-
-          this.data_inicio = resposta.data_inicio;
-          this.data_fim = resposta.data_fim;
+          this.lancamentoFilter.data_inicio = resposta.data_inicio;
+          this.lancamentoFilter.data_fim = resposta.data_fim;
           this.total_lancamentos = resposta.total_lancamentos;
           this.listaLancemantos = resposta.lancamentos
           this.dataSource = new MatTableDataSource(this.listaLancemantos);
           this.definirInfo();
         },
         error: (responseError) => {
-          console.log("Erro");
           console.log(responseError);
+          this.snackBar.open("Erro ao aplicar Filtros!", "Erro!", {
+            duration: 5000
+          });
         }
       });
+
   }
 
 
@@ -129,9 +167,15 @@ export class LancamentoListagemComponent implements OnInit {
   }
 
 
-  deletarLancamento(lancamento: LancamentoDTOResponse) {
+  selecionarLancamentoDeletar(lancamento: LancamentoDTOResponse) {
+    this.lancamentoDeletar = lancamento;
+  }
 
-    this.service.deletarporLancamentoId(lancamento.id)
+
+
+  deletarLancamento() {
+
+    this.service.deletarporLancamentoId(this.lancamentoDeletar.id)
       .subscribe({
         next: (resposta) => {
 

@@ -32,8 +32,7 @@ export class NaturezaListComponent implements OnInit {
 
     this.service.getNaturezasByUsername()
       .subscribe({
-        next: (resposta) => {
-          console.log(resposta);
+        next: (resposta) => {      
           this.naturezas = resposta;
           this.dataSource = new MatTableDataSource(this.naturezas);
         },
